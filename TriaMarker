@@ -1,0 +1,29 @@
+function drawTriangleMarker(angleDeg, innerRadius, outerRadius, color) {
+    const angleRad = (angleDeg - 90 - baseRotation) * Math.PI / 180;
+
+    const xTip = cx + innerRadius * Math.cos(angleRad);
+    const yTip = cy + innerRadius * Math.sin(angleRad);
+
+    const sideOffset = 8;
+    const perpendicular = angleRad + Math.PI / 2;
+
+    const xLeft = cx + outerRadius * Math.cos(angleRad) + sideOffset * Math.cos(perpendicular);
+    const yLeft = cy + outerRadius * Math.sin(angleRad) + sideOffset * Math.sin(perpendicular);
+    const xRight = cx + outerRadius * Math.cos(angleRad) - sideOffset * Math.cos(perpendicular);
+    const yRight = cy + outerRadius * Math.sin(angleRad) - sideOffset * Math.sin(perpendicular);
+
+    ctx.beginPath();
+    ctx.moveTo(xTip, yTip);
+    ctx.lineTo(xLeft, yLeft);
+    ctx.lineTo(xRight, yRight);
+    ctx.closePath();
+    ctx.fillStyle = color;
+    ctx.fill();
+}
+
+if (radialChart.gridVisible || showAngleLabels) {
+    const minorTickOuter = r - 40;
+    const minorTickInner = minorTickOuter - 10;
+    drawTriangleMarker(heading, minorTickInner, minorTickOuter, "#FFFFFF");
+}
+
