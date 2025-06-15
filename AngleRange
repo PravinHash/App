@@ -1,0 +1,27 @@
+function pixelToAngleRange(x, y) {
+    const plotRect = polarChart.plotArea;
+    const centerX = plotRect.x + plotRect.width / 2;
+    const centerY = plotRect.y + plotRect.height / 2;
+    const dx = x - centerX;
+    const dy = y - centerY;
+    const radiusMax = Math.min(plotRect.width, plotRect.height) / 2;
+
+    let angleRad = Math.atan2(dy, dx); // in radians
+    let angleDeg = angleRad * 180 / Math.PI;
+
+    angleDeg += 90; // Convert from East=0 to North=0
+    if (headingTop)
+        angleDeg += heading; // Apply rotation if headingTop
+
+    angleDeg = (angleDeg + 360) % 360; // Normalize to [0, 360)
+
+    const distanceFromCenter = Math.sqrt(dx * dx + dy * dy);
+    const normalizedRadius = distanceFromCenter / radiusMax;
+    const value = normalizedRadius * valueAxis.max;
+
+    return {
+        angle: angleDeg,
+        value: value
+    };
+}
+// Mouse x, y to angle and Range 
